@@ -164,11 +164,13 @@ def index_to_chess_notation(index):
 def score_position(board):
     color = black if board.color_to_move == white else white #color of the player that just moved
     #first check for checkmate/stalemate (TODO: stalemate -> need function to check wether legal moves exist without generating all of them otherwise performance is bad)
-    if check(color, board.state, board.king_pos[board.color_to_move]) and len(legal_move_list(board)) == 0:
-        if color == white:
-            return material_score['checkmate']
-        if color == black:
-            return -material_score['checkmate']
+    if not legal_moves_exist(board):
+        if check(color, board.state, board.king_pos[board.color_to_move]):
+            if color == white:
+                return material_score['checkmate']
+            if color == black:
+                return -material_score['checkmate']
+        return material_score['stalemate']
     #now we calculate the material score
     score = 0
     board_array = board.state
@@ -254,7 +256,7 @@ def static_exchange_evaluation(board_array, move):
     
     while True:
         #if the score is less than 0 after our capture then the
-        #opponent can stop here and the exchange is bad2
+        #opponent can stop here and the exchange is bad
         if score < 0:
             return False
         LIA = least_important_attacker(board_array, target_square)

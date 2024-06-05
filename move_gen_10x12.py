@@ -169,6 +169,12 @@ def legal_move_list(board):
         move_list.append(move)
     return move_list
 
+def legal_moves_exist(board):
+    try:
+        first = next(gen_legal_moves(board))
+    except StopIteration:
+        return False
+    return True
 
 def check(color, board, king_pos):
     """

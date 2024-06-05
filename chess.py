@@ -10,7 +10,6 @@
 #      -> (maybe) try to investigate a movelog to how on black's 1st move quiescence search can get to depth -20 
 #      -> quiescence search with no other conditions seem to only converge because of the finite number of pieces, 
 #         which might be a bit too slow (32 pieces to start with)
-# - add stalemate when scoring position
 # - *** a technique applied outside of the search for this is iterative deepening boosted by a transposition table, and possibly aspiration windows
 
 
@@ -19,9 +18,9 @@ import sys
 import random
 import time
 # from copy import deepcopy
-
 import pygame
 # import numpy as np
+
 import chessAI
 import Board
 from move_gen_10x12 import *
