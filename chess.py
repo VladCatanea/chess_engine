@@ -2,7 +2,6 @@
 # - change the board to a more efficient way of storing the state - bitboard
 # - improve the generating of next legal moves
 # - improve the game over thing
-# - implement FEN notation - add a feature where you can add a custom FEN to start from the position you want
 # - draws by insufficient material, repetition or 50 move rule
 # - look at importance of stalemate in the position evaluation of the AI
 # - improve move notation so that check and checkmate are included
@@ -11,8 +10,7 @@
 #      -> (maybe) try to investigate a movelog to how on black's 1st move quiescence search can get to depth -20 
 #      -> quiescence search with no other conditions seem to only converge because of the finite number of pieces, 
 #         which might be a bit too slow (32 pieces to start with)
-# - implement alpha beta pruning nega max
-# - fix issue where computer generates an invalid move when being very close (1 move) to checkmate - only on depth 3 
+# - add stalemate when scoring position
 # - *** a technique applied outside of the search for this is iterative deepening boosted by a transposition table, and possibly aspiration windows
 
 
@@ -142,7 +140,7 @@ class GameState:
         self.swapped = not self.swapped
 
 
-class In_hand:
+class InHand:
     """
     Class to hold the piece the player has taken to move
     and the place it was taken from.
@@ -281,7 +279,7 @@ def init_pieces():
     """
     Creates a piece_matrix which stores the images of the pieces,
     to be easier to get when they will be drawn on the screen.
-    Also, creates the GameState and In_hand objects
+    Also, creates the GameState and InHand objects
     """
     global board
     global gs
@@ -305,7 +303,7 @@ def init_pieces():
     piece_matrix[white][king] = load_piece("white_king.png")
     
     gs = GameState()
-    in_hand = In_hand()
+    in_hand = InHand()
 
 def draw_pieces():
     """Draws all the pieces on the screen"""

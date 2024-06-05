@@ -163,7 +163,7 @@ def index_to_chess_notation(index):
 
 def score_position(board):
     color = black if board.color_to_move == white else white #color of the player that just moved
-    #first check for checkmate/stalemate
+    #first check for checkmate/stalemate (TODO: stalemate -> need function to check wether legal moves exist without generating all of them otherwise performance is bad)
     if check(color, board.state, board.king_pos[board.color_to_move]) and len(legal_move_list(board)) == 0:
         if color == white:
             return material_score['checkmate']
@@ -294,7 +294,7 @@ def find_best_move(board, move_list, depth=DEPTH):
     # best_score = nega_max(board, move_list, color_mx, depth)
     best_score = negamax_alphabeta(board, -10**6, 10**6, color_mx, depth)
     # best_score = minmax_alphabeta(board, -10**6, 10**6, maximizing_player, depth, False)
-    print('position evaluation:', best_score)
+    print('position evaluation:', -best_score) # the score is maximized from the black player perspective
     print('counter:', counter)
     return negamax_alphabeta_best_move
 
@@ -310,7 +310,7 @@ def negamax_alphabeta(board, alpha, beta, color_mx, depth):
     global counter
     counter += 1
     if depth == 0:
-        return score_position(board)
+        return score_position(board) * color_mx
     best_score = -10**6
     move_list = legal_move_list(board)
     no_moves_flag, move_list = order_moves(move_list, board.state)
@@ -327,7 +327,7 @@ def negamax_alphabeta(board, alpha, beta, color_mx, depth):
         if alpha >= beta:
             return best_score
     if no_moves_flag:
-        return score_position(board)
+        return score_position(board) * color_mx
     return best_score
 
 def hash_board(board_array):
@@ -426,7 +426,7 @@ def negamax(board, color_mx, depth):
     return color_mx * best_score
 
 def order_moves(move_list, board_array, quiet=True):
-    no_moves = False
+    no_moves_flag = False
     good_capture_moves = []
     quiet_moves = []
     bad_capture_moves = []
@@ -439,9 +439,10 @@ def order_moves(move_list, board_array, quiet=True):
             #     bad_capture_moves.append(move)
         elif quiet:
             quiet_moves.append(move)
-    if len(good_capture_moves + quiet_moves + bad_capture_moves) == 0:
-        no_moves = True
-    return no_moves, good_capture_moves + quiet_moves + bad_capture_moves
+    all_moves = good_capture_moves + quiet_moves + bad_capture_moves
+    if len(all_moves) == 0:
+        no_moves_flag = True
+    return no_moves_flag, all_moves
 
 
 
