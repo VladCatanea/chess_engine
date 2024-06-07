@@ -35,7 +35,7 @@ random.seed()
 
 #general:
 WAITING_TIME = 50 #time to wait between loops in ms
-MAX_FPS = 16 #maximum frames per second
+MAX_FPS = 30 #maximum frames per second
 
 #writings
 WARNING_FONT_SIZE = 70
