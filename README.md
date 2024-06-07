@@ -14,5 +14,9 @@ This is an example of a chess engine that can calculate 3 moves in advance built
 
 Run **chess.py** from terminal 
 
-Drag and drop to move chess pieces, **u** key undos the last move (a bit buggy because the computer immediately redos its move), and up and down arrow keys scroll through the move log on the right side of the board.
+### Controls
+
+1. Drag and drop to move chess pieces 
+2. **u** key undos the last move (a bit buggy because the computer immediately redos its move)
+3. up and down arrow keys scroll through the move log on the right side of the board.
 
