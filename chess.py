@@ -579,6 +579,8 @@ def main():
                     if gs.undo():
                         if swapping_board:
                             gs.swap()
+                    if computer_game: # another undo to get to the players previous move preventing the computer from just instantly redoing its own move
+                        gs.undo()
 
             #enable user to scroll through move list using the UP and DOWN keyboard keys
             if event.type == pygame.KEYDOWN:
