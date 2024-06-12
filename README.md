@@ -19,4 +19,5 @@ Run **chess.py** from terminal
 1. Drag and drop to move chess pieces 
 2. **u** key undos the last move 
 3. up and down arrow keys scroll through the move log on the right side of the board.
+4. mouse wheel can also be used to scroll through the move log
 
