@@ -36,6 +36,7 @@ random.seed()
 #general:
 WAITING_TIME = 50 #time to wait between loops in ms
 MAX_FPS = 30 #maximum frames per second
+SCROLL_SPEED = 10 #scroll speed for the move log (with mousewheel)
 
 #writings
 WARNING_FONT_SIZE = 70
@@ -342,6 +343,11 @@ def draw_movelog():
     Draws a list of moves that happened in the game, on the right
     side of the board
     """
+
+    # Rect in which the mouse can scroll the movelog (for debug purposes)
+    # movelog_rect = pygame.Rect((MARGIN + BOARD_SIZE, 0), (SCREEN_WIDTH - MARGIN - BOARD_SIZE, SCREEN_HEIGHT))
+    # pygame.draw.rect(screen, black, movelog_rect)
+    
     #x0, y0 are the coordinates of the first move from the move log
     x0, y0 = MARGIN * 2 + BOARD_SIZE, MARGIN + movelist_scroll
     count = 0
@@ -588,6 +594,11 @@ def main():
                     movelist_scroll += MOVELIST_VERTICAL_SPACING
                 elif event.key == pygame.K_DOWN:
                     movelist_scroll -= MOVELIST_VERTICAL_SPACING
+
+            if event.type == pygame.MOUSEWHEEL:
+                movelog_rect = pygame.Rect((MARGIN + BOARD_SIZE, 0), (SCREEN_WIDTH - MARGIN - BOARD_SIZE, SCREEN_HEIGHT))
+                if movelog_rect.collidepoint(pygame.mouse.get_pos()):
+                    movelist_scroll += SCROLL_SPEED * event.precise_y
             
             #so that the game quits when the user tries to close the window
             if event.type == pygame.QUIT: 
